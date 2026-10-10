@@ -376,6 +376,43 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.rv-in{opacity:1;transform:none}}
 </style>
+<!-- Meta Pixel + Hotmart checkout (UTM -> sck) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1070133672524513');
+fbq('track','PageView');
+(function(){
+  var CHECKOUT='https://pay.hotmart.com/C105211262B?off=5biilgo3&checkoutMode=10';
+  var KEYS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  var q=new URLSearchParams(location.search), saved={};
+  try{saved=JSON.parse(localStorage.getItem('utm_data')||'{}')}catch(e){}
+  var utm={},has=false;
+  KEYS.forEach(function(k){var v=q.get(k);if(v){utm[k]=v;has=true}});
+  if(has){try{localStorage.setItem('utm_data',JSON.stringify(utm))}catch(e){}}else{utm=saved}
+  function buildUrl(){
+    var u=new URL(CHECKOUT);
+    var parts=KEYS.map(function(k){return utm[k]||''});
+    while(parts.length&&!parts[parts.length-1])parts.pop();
+    if(parts.length)u.searchParams.set('sck',parts.join('|'));
+    if(utm.utm_source)u.searchParams.set('src',utm.utm_source);
+    return u.toString();
+  }
+  function wire(){
+    var url=buildUrl();
+    document.querySelectorAll('a.buy,a[href^="https://pay.hotmart.com"]').forEach(function(a){
+      a.setAttribute('href',url);
+      a.addEventListener('click',function(ev){
+        if(ev.ctrlKey||ev.metaKey||ev.shiftKey||ev.button===1)return;
+        ev.preventDefault();
+        try{fbq('track','InitiateCheckout',{value:27,currency:'USD',content_name:'Ultimate Backdrops Pack'})}catch(e){}
+        setTimeout(function(){location.href=url},300);
+      });
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else wire();
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1070133672524513&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
 
@@ -552,7 +589,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 <section class="pstrip">
   <div class="wrap">
     <p class="pline">Just <s>$297</s> <span class="today">TODAY</span> <b>$27</b></p>
-    <a class="btn btn-red buy" href="#CHECKOUT_LINK">YES, I NEED THIS PACK!</a>
+    <a class="btn btn-red buy" href="https://pay.hotmart.com/C105211262B?off=5biilgo3&amp;checkoutMode=10">YES, I NEED THIS PACK!</a>
     <p class="cta-note">🔒 Secure checkout · Instant download · 2,500+ backdrops</p>
   </div>
 </section>
@@ -607,7 +644,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 <section class="pstrip">
   <div class="wrap">
     <p class="pline">Just <s>$297</s> <span class="today">TODAY</span> <b>$27</b></p>
-    <a class="btn btn-red buy" href="#CHECKOUT_LINK">YES, I NEED THIS PACK!</a>
+    <a class="btn btn-red buy" href="https://pay.hotmart.com/C105211262B?off=5biilgo3&amp;checkoutMode=10">YES, I NEED THIS PACK!</a>
     <p class="cta-note">🔒 Secure checkout · Instant download · 2,500+ backdrops</p>
   </div>
 </section>
@@ -644,7 +681,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
           <div class="was">Regular price <s>$297</s></div>
           <div class="now">$27</div>
           <div class="off">91% OFF TODAY</div>
-          <a class="btn btn-gold buy" href="#CHECKOUT_LINK">YES, I NEED THIS PACK!</a>
+          <a class="btn btn-gold buy" href="https://pay.hotmart.com/C105211262B?off=5biilgo3&amp;checkoutMode=10">YES, I NEED THIS PACK!</a>
           <p class="cta-note">✔ One-time payment. Instant download. No subscription.</p>
           <div class="pay"><span>🔒 SAFE CHECKOUT</span><span>PayPal</span><span>Stripe</span><span>VISA</span><span>Mastercard</span></div>
         </div>
@@ -711,7 +748,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
     <span class="eyebrow" style="color:#c8433a">⏳ Hurry! Limited time offer · Last chance</span>
     <h2 style="margin-top:14px">Improve your photography today with the <span class="serif">Ultimate Backdrops Pack</span></h2>
     <p class="lead" style="margin:16px auto 30px">Ultra-high resolution (10,000 × 6,000 px at 300 DPI) for outstanding clarity in digital and print projects.</p>
-    <a class="btn btn-gold buy" href="#CHECKOUT_LINK">Download now – $27</a>
+    <a class="btn btn-gold buy" href="https://pay.hotmart.com/C105211262B?off=5biilgo3&amp;checkoutMode=10">Download now – $27</a>
     <p class="cta-note">One-time payment · Instant download · Lifetime access</p>
   </div>
 </section>
@@ -730,12 +767,12 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 
 <div class="sticky" id="sticky">
   <div class="p"><s>$297</s><b>$27</b></div>
-  <a class="btn btn-gold buy" href="#CHECKOUT_LINK">Get the pack now</a>
+  <a class="btn btn-gold buy" href="https://pay.hotmart.com/C105211262B?off=5biilgo3&amp;checkoutMode=10">Get the pack now</a>
 </div>
 
 <script>
 /* ===== CONFIG ===== */
-const CHECKOUT_URL = "#CHECKOUT_LINK"; // <- paste your checkout link here
+const CHECKOUT_URL = "https://pay.hotmart.com/C105211262B?off=5biilgo3&checkoutMode=10";
 const SALE_HOURS = 6;                  // countdown length per visitor
 
 const BGS = [
